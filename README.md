@@ -15,8 +15,9 @@
 
 ## 🎥 Demo Video
 
-https://github.com/TechWithAkash/algerian_forest_fire_prediction_app/assets/0000000/demo-video.mp4  
-<sub>📌 *Click the video above to watch the full app in action!*</sub>
+https://github.com/user-attachments/assets/2f51972c-08dd-4015-87e2-22ae1136e708
+
+> 📌 *Click the video link above to watch the full demo!*
 
 ---
 
@@ -33,7 +34,7 @@ It’s designed for:
 ## 🌐 Live Deployed App
 
 **🖥️ [Click here to use the app →](https://forest-fire-prediction-wvfl.onrender.com/)**  
-> ⚠️ *Note: Free Render plan may take 30-60 seconds to wake up from sleep.*
+> ⚠️ *Note: Free Render plan may take 30–60 seconds to wake up from sleep.*
 
 ---
 
@@ -77,14 +78,15 @@ It’s designed for:
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Built With
 
-| Layer      | Tech Used                         |
-| ---------- | --------------------------------- |
-| Frontend   | HTML5, Tailwind CSS, JS (vanilla) |
-| Backend    | Python 3.10+, Flask               |
-| ML Model   | Ridge Regression (scikit-learn)   |
-| Deployment | Render (Free Web Service)         |
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3.10-blue?logo=python&style=flat-square" />
+  <img src="https://img.shields.io/badge/Flask-2.3-black?logo=flask&style=flat-square" />
+  <img src="https://img.shields.io/badge/scikit--learn-1.7-orange?logo=scikit-learn&style=flat-square" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3.0-38bdf8?logo=tailwindcss&style=flat-square" />
+  <img src="https://img.shields.io/badge/Render-Cloud-blueviolet?logo=render&style=flat-square" />
+</p>
 
 ---
 
@@ -136,28 +138,6 @@ Go to `http://localhost:5000` in your browser.
 
 ---
 
-## 🧾 Deployment Notes (Render)
-
-Make sure your `requirements.txt` includes:
-
-```
-Flask
-gunicorn
-scikit-learn
-numpy
-pandas
-```
-
-Then set the **Start Command** in Render as:
-
-```bash
-gunicorn app:app
-```
-
-> For full instructions, check: [Render Flask Deployment Guide](https://render.com/docs/deploy-flask)
-
----
-
 ## 🙋 About the Author
 
 **Akash Vishwakarma**
@@ -173,12 +153,12 @@ This project is licensed under the MIT License.
 
 ---
 
-## ❤️ Support This Project
+## ⭐ Show Some ❤️
 
-If you liked this project:
+If you found this project helpful:
 
 ⭐ **Star this repository**
 🍴 **Fork and contribute**
-🧑‍💼 **Share it with recruiters or ML enthusiasts**
+📢 **Share it on LinkedIn/Twitter**
 
 > *“Technology is best when it brings people together — even to prevent disasters.”*
