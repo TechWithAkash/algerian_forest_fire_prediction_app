@@ -2,37 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FWI Prediction Form</title>
+  <title>Predict FWI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Poppins', sans-serif; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-900 via-blue-900 to-gray-900 text-white min-h-screen">
+<body class="bg-white text-gray-800">
 
-  <div class="max-w-2xl mx-auto mt-10 bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-lg">
-    <h1 class="text-3xl font-bold text-yellow-400 text-center mb-6">Enter Weather Parameters</h1>
+  <div class="max-w-2xl mx-auto mt-12 px-4">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Predict Fire Weather Index</h1>
 
-    <form action="{{ url_for('predict_datapoint') }}" method="POST" class="space-y-4">
-      {% for field in ['Temperature', 'RH', 'WS', 'Rain', 'FFMC', 'DMC', 'ISI', 'Classes', 'Region'] %}
+    <form id="fwi-form" class="bg-white border border-gray-200 rounded-xl shadow-md p-6 space-y-5">
+      <div class="grid md:grid-cols-2 gap-4">
+        {% for field in ['Temperature', 'RH', 'WS', 'Rain', 'FFMC', 'DMC', 'ISI', 'Classes', 'Region'] %}
         <div>
-          <label class="block font-medium mb-1 text-gray-200">{{ field }}</label>
-          <input type="number" step="any" name="{{ field }}" placeholder="Enter {{ field }}"
-                 class="w-full border border-gray-300 px-4 py-2 rounded-lg text-gray-800 focus:ring-2 focus:ring-yellow-400" required />
+          <label class="block mb-1 font-medium text-gray-700">{{ field }}</label>
+          <input
+            type="number"
+            step="any"
+            name="{{ field }}"
+            placeholder="Enter {{ field }}"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
-      {% endfor %}
-      <button type="submit" class="w-full bg-gradient-to-r from-yellow-400 to-pink-500 text-black py-2 rounded-lg font-semibold hover:scale-105 transition">
+        {% endfor %}
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition"
+      >
         🔥 Predict FWI
       </button>
     </form>
 
-    <div class="mt-6 text-center">
-      <a href="{{ url_for('home') }}" class="text-yellow-400 hover:underline">← Back to Home</a>
+    <div class="text-center mt-6">
+      <a href="{{ url_for('home') }}" class="text-blue-600 hover:underline">← Back to Home</a>
     </div>
   </div>
 
-  {% include 'footer.html' %}
+  <!-- Modal -->
+  <div id="resultModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white text-center p-6 rounded-lg shadow-xl max-w-sm w-full">
+      <h2 class="text-xl font-bold text-blue-600 mb-4">Prediction Result</h2>
+      <p id="predictionResult" class="text-lg text-gray-800 mb-4">Loading...</p>
+      <button onclick="closeModal()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Close</button>
+    </div>
+  </div>
+<!-- {% include 'footer.html' %}-->
+  
+
+  <!-- JS -->
+  <script>
+    const form = document.getElementById('fwi-form');
+    const modal = document.getElementById('resultModal');
+    const resultText = document.getElementById('predictionResult');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = new URLSearchParams();
+      for (const pair of formData) {
+        data.append(pair[0], pair[1]);
+      }
+
+      try {
+        const response = await fetch("{{ url_for('predict_datapoint') }}", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: data
+        });
+
+        const html = await response.text();
+        const match = html.match(/The Fire Weather Index is: ([-\d.]+)/);
+        resultText.textContent = match ? `🔥 ${match[0]}` : "❌ Failed to predict.";
+        openModal();
+      } catch (error) {
+        resultText.textContent = "❌ Something went wrong.";
+        openModal();
+      }
+    });
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+  </script>
 
 </body>
 </html>
